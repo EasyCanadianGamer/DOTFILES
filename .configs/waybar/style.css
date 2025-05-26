@@ -1,0 +1,57 @@
+@import "carmiku.css";
+
+* {
+    color: @miku-text;
+    border: none;
+    border-radius: 12px;
+    font-family: "JetBrains Mono", "Font Awesome 6 Free", sans-serif;
+    font-size: 14px;
+    min-height: 30px;
+}
+
+/* ---------- Glossy Floating Bar ---------- */
+window#waybar {
+    background-color: shade(@miku-primary, 0.5);
+    border-radius: 16px;
+    margin: 6px;
+    padding: 4px 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- Workspaces ---------- */
+#workspaces button {
+padding: 0 10px;
+background: transparent;
+border-radius: 10px;
+transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#workspaces button.active {
+background: @miku-highlight-dark;
+color: @miku-dark;
+font-weight: bold;
+}
+
+/* ---------- Modules ---------- */
+#clock, #cpu, #disk, #network, #pulseaudio, #bluetooth,
+#custom-menu, #custom-update, #custom-active_apps, #custom-open_apps, #custom-power{
+padding: 0 10px;
+margin: 0 4px;
+background: rgba(30, 30, 30, 0.5); /* same as @miku-gray with 50% opacity */
+border-radius: 10px;
+transition: background-color 0.3s ease;
+}
+
+#custom-menu:hover, #custom-update:hover, #custom-open_apps:hover, #custom-power:hover{
+background: rgba(59, 214, 198, 0.7); /* @miku-primary with 70% opacity */
+color: @miku-dark;
+}
+
+/* ---------- Tooltip ---------- */
+tooltip {
+    background: rgba(18, 18, 18, 0.85); /* @miku-dark with 85% opacity */
+    color: @miku-text;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 13px;
+}

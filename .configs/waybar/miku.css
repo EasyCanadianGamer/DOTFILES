@@ -1,0 +1,12 @@
+@define-color miku-primary     #39C5BB;  /* Signature turquoise */
+@define-color miku-secondary   #66D1C4;  /* Lighter turquoise */
+@define-color miku-accent      #00B5E2;  /* Cyan blue highlight */
+@define-color miku-dark        #1E3A3F;  /* Deep teal shadow */
+@define-color miku-hair-light  #A2E9E1;  /* Pale aqua highlight */
+@define-color miku-pink        #FF66CC;  /* Vocaloid pink accent */
+@define-color miku-gray        #4B4B4B;  /* Outfit gray */
+@define-color miku-bg          #0F2027;  /* Dark futuristic background */
+@define-color miku-text        #F0F8FF;  /* Soft white text */
+@define-color miku-hover       #5FE3D0;  /* Hover effect color */
+@define-color miku-border      #2C8C87;  /* Subtle border */
+@define-color miku-muted       #2F4F4F;  /* Muted grayish teal */

@@ -1,0 +1,56 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["custom/menu", "custom/update", "clock", "custom/active_apps", "custom/power"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["bluetooth", "network", "pulseaudio", "cpu", "disk", "custom/open_apps"],
+  "custom/menu": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "rofi -show drun"
+  },
+  "custom/update": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "notify-send 'Updating System...' && kitty -e sudo pacman -Syu"
+  },
+  "clock": {
+    "format": "{:%a %b %d %H:%M}",
+    "tooltip-format": "{calendar}"
+  },
+  "custom/active_apps": {
+    "exec": "~/.config/waybar/scripts/active_window.sh",
+    "interval": 3,
+    "return-type": "json"
+  },
+  "custom/power": {
+  "format": "⏻",
+  "tooltip": false,
+  "on-click": "~/.config/waybar/scripts/power_menu.sh"
+},
+  "custom/open_apps": {
+    "format": "",
+    "tooltip": true,
+    "on-click": "rofi -show window"
+  },
+  "bluetooth": {
+    "format": " {status}"
+  },
+  "network": {
+    "format-wifi": "   {signalStrength}%",
+    "format-ethernet": "    {ifname}"
+  },
+  "pulseaudio": {
+    "format": "   {volume}%",
+    "scroll-step": 5
+  },
+  "cpu": {
+    "format": "   {usage}%"
+  },
+  "disk": {
+    "format": "   {used}/{total}"
+  },
+  "hyprland/workspaces": {
+    "on-click": "activate"
+  }
+}
