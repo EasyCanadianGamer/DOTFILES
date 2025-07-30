@@ -1,0 +1,168 @@
+* {
+all: unset;
+font-family: "JetBrains Mono Nerd Font", "Font Awesome 6 Free";
+font-size: 13px;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* Base module style */
+.module {
+    margin: 4px 2px;
+    padding: 0 12px;
+    background-color: rgba(30, 30, 46, 0.7);
+    border-radius: 16px;
+    color: #cdd6f4;
+    transition: background-color 0.3s ease;
+    border: 1px solid #94e2d5;
+}
+/* Hover effects */
+.module:hover {
+    background-color: rgba(49, 50, 68, 0.8);
+}
+
+
+
+
+/* Workspaces */
+#workspaces button {
+padding: 0 8px;
+background: transparent;
+color: #6c7086;
+border-radius: 16px;
+min-width: 20px;
+}
+
+#workspaces button.active {
+background: rgba(166, 173, 200, 0.15);
+color: #cdd6f4;
+animation: blink 2s infinite alternate;
+}
+
+#workspaces button.urgent {
+background-color: #f38ba8;
+color: #1e1e2e;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+
+/* System modules */
+#cpu, #memory, #temperature, #disk, #taskbar{
+padding: 0 12px;
+}
+
+#cpu {
+color: #94e2d5;
+}
+
+#memory {
+color: #cba6f7;
+}
+
+#temperature {
+color: #f9e2af;
+}
+
+#temperature.critical {
+color: #f38ba8;
+}
+
+#disk {
+color: #89dceb;
+}
+/* taskbar */
+#taskbar {
+margin: 3px 15px 3px 0px;
+padding:0px;
+font-weight: normal;
+font-style: normal;
+opacity:1.0;
+}
+
+#taskbar button {
+margin:0;
+padding: 0px 5px 0px 5px;
+}
+#taskbar.empty {
+background:transparent;
+border:0;
+padding:0;
+margin:0;
+}
+/* Right side modules */
+#pulseaudio {
+color: #89b4fa;
+}
+
+#pulseaudio.muted {
+color: #a6adc8;
+}
+
+#bluetooth {
+color: #89b4fa;
+}
+
+#bluetooth.connected {
+color: #a6e3a1;
+}
+
+#network {
+color: #f5c2e7;
+}
+
+#network.disconnected {
+color: #f38ba8;
+}
+
+#clock {
+color: #fab387;
+font-weight: bold;
+}
+#custom-update {
+color: #94e2d5;
+font-weight: bold;
+padding: 0 10px;
+}
+
+/* Optional: When there are updates (text is not 0) */
+#custom-update.warning {
+color: #f9e2af;
+}
+
+/* Optional: When there are many updates (e.g., >50) */
+#custom-update.critical {
+color: #f38ba8;
+}
+
+#custom-power {
+color: #f38ba8;
+padding: 0 10px;
+font-weight: bold;
+}
+
+/* Window module */
+#window {
+margin-left: 16px;
+padding: 0 16px;
+background-color: rgba(30, 30, 46, 0.5);
+border-radius: 16px;
+}
+
+/* Tooltips */
+tooltip {
+    background: rgba(30, 30, 46, 0.9);
+    border: 1px solid #585b70;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+tooltip label {
+    color: #cdd6f4;
+}

@@ -1,0 +1,162 @@
+* {
+all: unset;
+font-family: "JetBrains Mono Nerd Font", "Font Awesome 6 Free";
+font-size: 13px;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* Base module style */
+.module {
+    margin: 4px 2px;
+    padding: 0 12px;
+    background-color: rgba(59, 47, 47, 0.7); /* dark maroon-brown */
+    border-radius: 16px;
+    color: #f0c89a; /* soft highlight beige */
+    transition: background-color 0.3s ease;
+    border: 1px solid #ec3d3d; /* accent red */
+}
+
+.module:hover {
+    background-color: rgba(47, 42, 42, 0.8);
+}
+
+/* Workspaces */
+#workspaces button {
+padding: 0 8px;
+background: transparent;
+color: #b6b6c8; /* soft grayish highlight */
+border-radius: 16px;
+min-width: 20px;
+}
+
+#workspaces button.active {
+background: rgba(236, 61, 61, 0.15); /* light red glow */
+color: #f0c89a;
+animation: blink 2s infinite alternate;
+}
+
+#workspaces button.urgent {
+background-color: #ec3d3d;
+color: #2f2a2a;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* System modules */
+#cpu {
+color: #e37a41; /* warm orange */
+}
+
+#memory {
+color: #f0c89a;
+}
+
+#temperature {
+color: #b6b6c8;
+}
+
+#temperature.critical {
+color: #ec3d3d;
+}
+
+#disk {
+color: #e37a41;
+}
+
+/* Taskbar */
+#taskbar {
+margin: 3px 15px 3px 0px;
+padding: 0px;
+font-weight: normal;
+font-style: normal;
+opacity: 1.0;
+}
+
+#taskbar button {
+margin: 0;
+padding: 0px 5px 0px 5px;
+}
+
+#taskbar.empty {
+background: transparent;
+border: 0;
+padding: 0;
+margin: 0;
+}
+
+/* Right side modules */
+#pulseaudio {
+color: #e37a41;
+}
+
+#pulseaudio.muted {
+color: #b6b6c8;
+}
+
+#bluetooth {
+color: #e37a41;
+}
+
+#bluetooth.connected {
+color: #f0c89a;
+}
+
+#network {
+color: #ec3d3d;
+}
+
+#network.disconnected {
+color: #ec3d3d;
+}
+
+#clock {
+color: #f0c89a;
+font-weight: bold;
+}
+
+#custom-update {
+color: #e37a41;
+font-weight: bold;
+padding: 0 10px;
+}
+
+#custom-update.warning {
+color: #f0c89a;
+}
+
+#custom-update.critical {
+color: #ec3d3d;
+}
+
+#custom-power {
+color: #ec3d3d;
+padding: 0 10px;
+font-weight: bold;
+}
+
+/* Window module */
+#window {
+margin-left: 16px;
+padding: 0 16px;
+background-color: rgba(59, 47, 47, 0.5);
+border-radius: 16px;
+}
+
+/* Tooltips */
+tooltip {
+    background: rgba(59, 47, 47, 0.9);
+    border: 1px solid #b6b6c8;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+tooltip label {
+    color: #f0c89a;
+}
