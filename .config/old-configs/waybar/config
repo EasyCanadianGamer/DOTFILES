@@ -1,0 +1,120 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 40,
+  "margin-top": 6,
+  "margin-bottom": 6,
+  "margin-left": 6,
+  "margin-right": 6,
+  "modules-left": ["wlr/taskbar", "temperature", "cpu", "memory", "disk", "hyprland/window"],
+  "modules-center": [ "hyprland/workspaces"],
+  "modules-right": ["custom/update","pulseaudio", "bluetooth", "network", "clock","custom/power"],
+
+  // Left modules
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 18,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": ["Alacritty", "kitty", "zsh"],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    },
+    "rewrite": {
+      "Firefox Web Browser": "Firefox",
+      "Foot Server": "Terminal"
+    }
+  },
+  "temperature": {
+    "thermal-zone": 0,
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "format": " {temperatureC}°C",
+    "critical-threshold": 80,
+    "format-critical": " {temperatureC}°C"
+  },
+  "cpu": {
+    "format": " {usage}%",
+    "interval": 5
+  },
+  "memory": {
+    "format": " {used:0.1f}G",
+    "interval": 5,
+    "tooltip-format": "{used:0.1f}G/{total:0.1f}G"
+  },
+  "disk": {
+    "format": " {used}",
+    "path": "/",
+    "interval": 30
+  },
+  "hyprland/window": {
+    "format": "{}",
+    "separate-outputs": true
+  },
+
+
+  //Center Modules
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+        "1": "",  // Fallback text
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "active": "",  // Nerd Font active icon
+        "default": "",  // Nerd Font default icon
+        "urgent": ""   // Font Awesome urgent icon
+    },
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+},
+  // Right modules
+"custom/update": {
+  "format": "󰚰 {} updates",
+  "exec": "~/.config/waybar/scripts/myupdate.sh",
+  "interval": 1800,
+  "tooltip": true,
+  "return-type": "json",
+  "on-click": "~/.config/waybar/scripts/update-click.sh"
+},
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " Muted",
+    "format-icons": {
+      "default": ["", ""]
+    },
+    "on-click": "pavucontrol",
+    "scroll-step": 5
+  },
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "",
+    "format-connected": " {device_alias}",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-enabled": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "on-click": "rofi-bluetooth"
+  },
+  "network": {
+    "format-wifi": " {essid} ({signalStrength}%)",
+    "format-ethernet": " {ifname}",
+    "format-disconnected": "睊 Disconnected",
+    "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "~/.config/waybar/scripts/rofi-wifi-menu.sh"
+  },
+  "clock": {
+    "format": " {:%H:%M}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "interval": 60
+  },
+  "custom/power": {
+  "format": "⏻",
+  "tooltip": "Power Menu",
+  "on-click": "~/.config/waybar/scripts/power-menu.sh"
+}
+
+
+}

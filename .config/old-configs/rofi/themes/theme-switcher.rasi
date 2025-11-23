@@ -1,0 +1,101 @@
+/**
+ * Custom theme-switcher.rasi for rofi wallpaper/theme switcher
+ * Based on rofi 1.7.9.1 default theme dump
+ */
+configuration {
+    show-icons:                 true;
+}
+
+* {
+    background-color: rgba(30, 30, 46, 0.8);
+    foreground: #cdd6f4;
+    border-color: #94e2d5;
+    lightbg: rgba(49, 50, 68, 0.8);
+    lightfg: #94e2d5;
+    red: rgba(220, 50, 47, 1);
+    blue: rgba(59, 214, 198, 1);
+    lightfg-alt: #94e2d5;
+}
+
+/* Window styling */
+window {
+    width: 800px;
+    height: 600px;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: var(background-color);
+}
+
+/* Listview to display entries */
+listview {
+    lines: 10;
+    fixed-height: 40px;
+    spacing: 6px;
+    border: 0;
+    padding: 2px 0 0 0;
+}
+
+/* Each item */
+element {
+    padding: 0 12px;
+    border-radius: 6px;
+    height: 40px;
+    background-color: var(lightbg);
+    text-color: var(foreground);
+}
+
+/* Icon styling */
+element-icon {
+    size: 100px 100px;
+    margin: 0 8px 0 0;
+    background-color: transparent;
+}
+
+/* Hover & selected states */
+element selected.normal {
+    background-color: var(blue);
+    text-color: var(lightbg);
+}
+
+element selected.active {
+    background-color: var(blue);
+    text-color: var(lightbg);
+}
+
+element selected.urgent {
+    background-color: var(red);
+    text-color: var(lightbg);
+}
+
+/* Text inside elements */
+element-text {
+    background-color: transparent;
+    text-color:  inherit;
+    font: "Fira Code 16";
+    horizontal-align: 0.0;  // 0.0 = left, 0.5 = center, 1.0 = right
+    vertical-align: 0.5;    // 0.5 = center
+}
+
+
+/* Scrollbar styling */
+scrollbar {
+    width: 4px;
+    handle-width: 8px;
+    handle-color: var(foreground);
+}
+
+/* Remove border from message and sidebar */
+message, sidebar {
+    border: 0;
+}
+
+/* Input bar styling */
+inputbar {
+    padding: 1px;
+    text-color: var(foreground);
+}
+
+prompt {
+    text-color: #ffffff;
+    font-weight: bold;
+}
