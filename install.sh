@@ -1,125 +1,138 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-### ====== CONFIG ====== ###
-CONFIG_SRC="./config"
+# ── Paths ──────────────────────────────────────────────────────────────────────
+CONFIG_SRC="./.config"
 CONFIG_DEST="$HOME/.config"
 THEMES_SRC="./themes"
 THEMES_DEST="$HOME/.local/share/themes"
-### ===================== ###
 
-### ==== COLORS ==== ###
+# ── Colors ─────────────────────────────────────────────────────────────────────
 RED="\e[31m"
 GREEN="\e[32m"
 YELLOW="\e[33m"
 BLUE="\e[34m"
+BOLD="\e[1m"
 RESET="\e[0m"
-### ================= ###
 
+# ── Helpers ────────────────────────────────────────────────────────────────────
+info()    { echo -e "${BLUE}  →${RESET} $*"; }
+success() { echo -e "${GREEN}  ✓${RESET} $*"; }
+warn()    { echo -e "${YELLOW}  ⚠${RESET} $*"; }
+error()   { echo -e "${RED}  ✗${RESET} $*"; }
+header()  { echo -e "\n${BOLD}${BLUE}── $* ${RESET}"; }
 
 confirm() {
-    read -rp "$(echo -e "${YELLOW}?${RESET} $1 (y/n): ")" choice
-    case "$choice" in 
-        y|Y ) return 0 ;;
-        n|N ) return 1 ;;
-        * ) echo -e "${RED}Invalid response.${RESET}"; confirm "$1" ;;
-    esac
+    while true; do
+        read -rp "$(echo -e "${YELLOW}  ?${RESET} $1 (y/n): ")" choice
+        case "$choice" in
+            y|Y) return 0 ;;
+            n|N) return 1 ;;
+            *)   warn "Please enter y or n." ;;
+        esac
+    done
 }
 
-pause() {
-    read -rp "$(echo -e "${BLUE}Press Enter to continue...${RESET}")"
-}
-
-echo -e "${BLUE}---------------------------------------------"
-echo -e "  Hyprland Dotfiles Installer (Safe Mode)"
-echo -e "---------------------------------------------${RESET}"
-
-# ================================
-# 🛑 IMPORTANT BACKUP WARNING
-# ================================
-echo -e "${RED}⚠ WARNING: Before you continue ⚠${RESET}"
-echo -e "${YELLOW}You should BACK UP your current configs manually.${RESET}"
-echo -e ""
-echo -e "If anything goes wrong or if your repo has outdated configs,"
-echo -e "you will want your original files to restore."
-echo -e ""
-echo -e "Recommended backup commands:"
-echo -e "${BLUE}"
-echo "  mkdir -p ~/dotfiles_backup"
-echo "  cp -r ~/.config ~/dotfiles_backup/"
-echo "  cp -r ~/.local/share/themes ~/dotfiles_backup/"
+# ── Banner ─────────────────────────────────────────────────────────────────────
+echo -e "${BOLD}${BLUE}"
+echo "  ┌─────────────────────────────────────────┐"
+echo "  │     Hyprland Dotfiles Installer          │"
+echo "  └─────────────────────────────────────────┘"
 echo -e "${RESET}"
-pause
 
-# Detect Wayland
-if [ -z "$WAYLAND_DISPLAY" ] && [ -z "$(pgrep -x Hyprland)" ]; then
-    echo -e "${YELLOW}⚠ Wayland/Hyprland does not seem to be running.${RESET}"
-    if ! confirm "Continue anyway?"; then
-        exit 1
-    fi
-else
-    echo -e "${GREEN}✓ Wayland/Hyprland detected.${RESET}"
-fi
+# ── Backup warning ─────────────────────────────────────────────────────────────
+header "Backup Warning"
+warn "Back up your current configs before continuing."
+echo
+echo -e "  Run these commands first if you haven't:"
+echo -e "${BLUE}"
+echo "    mkdir -p ~/dotfiles_backup"
+echo "    cp -r ~/.config ~/dotfiles_backup/"
+echo "    cp -r ~/.local/share/themes ~/dotfiles_backup/"
+echo -e "${RESET}"
+confirm "I have a backup (or don't need one), continue?" || { info "Exiting. Backup first, then re-run."; exit 0; }
 
-# Check for Arch Linux
+# ── Checks ─────────────────────────────────────────────────────────────────────
+header "System Checks"
+
 if ! command -v pacman &>/dev/null; then
-    echo -e "${RED}❌ This script only supports Arch Linux.${RESET}"
+    error "This script only supports Arch Linux (pacman not found)."
     exit 1
 fi
+success "Arch Linux detected."
 
-# Ask before package installation
+if [ -z "${WAYLAND_DISPLAY:-}" ] && ! pgrep -x Hyprland &>/dev/null; then
+    warn "Hyprland/Wayland doesn't appear to be running."
+    confirm "Continue anyway?" || exit 0
+else
+    success "Hyprland/Wayland detected."
+fi
+
+# ── Packages ───────────────────────────────────────────────────────────────────
+header "Package Installation"
+
+PACMAN_PKGS=(swww cava kitty waybar rofi dunst hyprland wayland pwvucontrol)
+AUR_PKGS=(wlogout)
+
 if confirm "Install required packages?"; then
-    echo -e "${GREEN}📦 Installing packages...${RESET}"
-    sudo pacman -S --needed --noconfirm \
-        swww cava kitty waybar rofi dunst hyprland wayland
+    info "Installing pacman packages..."
+    sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
+    success "Pacman packages installed."
 
-    # Install yay if not found
     if ! command -v yay &>/dev/null; then
-        echo -e "${BLUE}Installing yay...${RESET}"
+        info "yay not found — installing from AUR..."
         sudo pacman -S --needed --noconfirm git base-devel
         git clone https://aur.archlinux.org/yay.git /tmp/yay
-        cd /tmp/yay
-        makepkg -si --noconfirm
-        cd -
+        (cd /tmp/yay && makepkg -si --noconfirm)
+        success "yay installed."
+    else
+        success "yay already installed."
     fi
 
-    echo -e "${GREEN}📦 Installing wlogout (AUR)...${RESET}"
-    yay -S --needed --noconfirm wlogout
+    info "Installing AUR packages: ${AUR_PKGS[*]}..."
+    yay -S --needed --noconfirm "${AUR_PKGS[@]}"
+    success "AUR packages installed."
 else
-    echo -e "${YELLOW}Skipping package installation.${RESET}"
+    warn "Skipping package installation."
 fi
 
-
-### ===== COPY DOTFILES (SAFE MODE) ===== ###
-echo -e "${BLUE}---------------------------------------------"
-echo -e "     Installing dotfiles (Safe Copy)"
-echo -e "---------------------------------------------${RESET}"
-
-echo -e "${YELLOW}Your existing configs will NOT be deleted.${RESET}"
-echo -e "${YELLOW}Files with the same name will be overwritten.${RESET}"
+# ── Dotfiles ───────────────────────────────────────────────────────────────────
+header "Copying Configs"
+warn "Existing files with the same name will be overwritten."
 echo
-if confirm "Proceed with copying configs to ~/.config/?"; then
+
+if confirm "Copy configs to ~/.config/?"; then
     mkdir -p "$CONFIG_DEST"
-    cp -vr "$CONFIG_SRC"/* "$CONFIG_DEST"
-    echo -e "${GREEN}✓ Configs copied safely.${RESET}"
+    if command -v rsync &>/dev/null; then
+        rsync -a --info=progress2 "$CONFIG_SRC/" "$CONFIG_DEST/"
+    else
+        cp -r "$CONFIG_SRC"/. "$CONFIG_DEST/"
+    fi
+    # Ensure scripts are executable
+    find "$CONFIG_DEST/hypr/scripts" -type f -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
+    success "Configs installed."
 else
-    echo -e "${YELLOW}Skipped copying configs.${RESET}"
+    warn "Skipping configs."
 fi
 
-if confirm "Copy themes to ~/.local/share/themes/?"; then
+if [ -d "$THEMES_SRC" ] && confirm "Copy themes to ~/.local/share/themes/?"; then
     mkdir -p "$THEMES_DEST"
-    cp -vr "$THEMES_SRC"/* "$THEMES_DEST"
-    echo -e "${GREEN}✓ Themes installed.${RESET}"
+    if command -v rsync &>/dev/null; then
+        rsync -a --info=progress2 "$THEMES_SRC/" "$THEMES_DEST/"
+    else
+        cp -r "$THEMES_SRC"/. "$THEMES_DEST/"
+    fi
+    success "Themes installed."
+elif [ ! -d "$THEMES_SRC" ]; then
+    info "No themes directory found, skipping."
 else
-    echo -e "${YELLOW}Skipped copying themes.${RESET}"
+    warn "Skipping themes."
 fi
 
-
-echo -e "${BLUE}---------------------------------------------"
-echo -e "⚠️  SDDM theme must be installed manually:"
-echo -e "   https://github.com/Keyitdev/sddm-astronaut-theme/tree/master"
-echo -e "---------------------------------------------${RESET}"
-
-echo -e "${GREEN}🎉 Installation complete!${RESET}"
-echo -e "${GREEN}Remember: You can restore your backup if needed.${RESET}"
+# ── Done ───────────────────────────────────────────────────────────────────────
+header "Post-Install Notes"
+echo -e "  ${YELLOW}SDDM theme must be installed manually:${RESET}"
+echo    "  https://github.com/Keyitdev/sddm-astronaut-theme"
+echo
+success "Done! Log out and back in (or reboot) to apply everything."

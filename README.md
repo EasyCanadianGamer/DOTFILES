@@ -13,8 +13,8 @@ DOTFILES of my riced hyprland-arch configuations
 
 * Hyprland (obviously)
 * Wayland ( obviously)
-* `sudo pacman -S swww cava kitty waybar rofi dunst  `
-* `yay -S wlogout`
+* `sudo pacman -S awww cava kitty waybar rofi dunst  `
+* `yay -S wlogout-git`
 
 ### Manual Install
 

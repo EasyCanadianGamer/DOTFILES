@@ -6,7 +6,6 @@ entries=""
 for dir in "$THEMES_DIR"/*; do
     name=$(basename "$dir")
     icon="$dir/preview.png"
-    # fallback to wallpaper.png if preview.png doesn't exist
     if [[ ! -f "$icon" ]]; then
         icon="$dir/wallpaper.png"
     fi
@@ -20,12 +19,13 @@ theme="${selected%% *}"
 theme_dir="$THEMES_DIR/$theme"
 wall="$theme_dir/wallpaper.png"
 
-# Apply wallpaper with swww and animation
-swww init &> /dev/null
-swww img "$wall" --transition-type any --transition-fps 60 --transition-duration 1 --transition-pos 0.5,0.5
+# Start daemon if not already running
+pgrep -x awww-daemon > /dev/null || awww-daemon &
+sleep 0.3  # give daemon a moment to init if it just launched
 
-# Optional: slight delay to ensure smooth load
+# Apply wallpaper
+img "$wall" --transition-type any --transition-fps 60 --transition-duration 1 --transition-pos 0.5,0.5
+
+
 sleep 0.5
-
-# Run theme script
 bash "$theme_dir/theme.sh"
