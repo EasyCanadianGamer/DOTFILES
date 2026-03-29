@@ -72,7 +72,7 @@ fi
 # ── Packages ───────────────────────────────────────────────────────────────────
 header "Package Installation"
 
-PACMAN_PKGS=(swww cava kitty waybar rofi dunst hyprland wayland pwvucontrol)
+PACMAN_PKGS=(awww cava kitty waybar rofi dunst hyprland wayland pwvucontrol)
 AUR_PKGS=(wlogout)
 
 if confirm "Install required packages?"; then
@@ -128,6 +128,35 @@ elif [ ! -d "$THEMES_SRC" ]; then
     info "No themes directory found, skipping."
 else
     warn "Skipping themes."
+fi
+
+# ── Default Wallpaper ──────────────────────────────────────────────────────────
+header "Default Wallpaper"
+
+DEFAULT_WALLPAPER="$THEMES_DEST/Arch/wallpaper.png"
+WALLPAPER_EXEC="exec-once = awww-daemon \& sleep 1 \&\& awww img $DEFAULT_WALLPAPER --transition-type any --transition-fps 60"
+
+if [ -f "$DEFAULT_WALLPAPER" ]; then
+    info "Default wallpaper found: $DEFAULT_WALLPAPER"
+    # Write a small autostart script so awww sets it on login
+    WALL_SCRIPT="$CONFIG_DEST/hypr/scripts/set-wallpaper.sh"
+    # Seed the cache with the default wallpaper on first install
+    mkdir -p ~/.cache
+    echo "$DEFAULT_WALLPAPER" > ~/.cache/current-wallpaper
+
+    cat > "$WALL_SCRIPT" <<'EOF'
+#!/usr/bin/env bash
+# Restore last used wallpaper on login
+CACHE=~/.cache/current-wallpaper
+[ -f "$CACHE" ] && wall=$(cat "$CACHE") || wall="$HOME/.local/share/themes/Arch/wallpaper.png"
+awww img "$wall" --transition-type any --transition-fps 60 --transition-duration 1
+EOF
+    chmod +x "$WALL_SCRIPT"
+    success "Wallpaper startup script written to $WALL_SCRIPT"
+    info "Add this to hyprland.conf exec-once if not already present:"
+    echo -e "    ${BLUE}exec-once = ~/.config/hypr/scripts/set-wallpaper.sh${RESET}"
+else
+    warn "No wallpaper found at $DEFAULT_WALLPAPER — skipping."
 fi
 
 # ── Done ───────────────────────────────────────────────────────────────────────

@@ -23,8 +23,9 @@ wall="$theme_dir/wallpaper.png"
 pgrep -x awww-daemon > /dev/null || awww-daemon &
 sleep 0.3  # give daemon a moment to init if it just launched
 
-# Apply wallpaper
-img "$wall" --transition-type any --transition-fps 60 --transition-duration 1 --transition-pos 0.5,0.5
+# Apply wallpaper and save as last used
+echo "$wall" > ~/.cache/current-wallpaper
+awww img "$wall" --transition-type any --transition-fps 60 --transition-duration 1 --transition-pos 0.5,0.5
 
 
 sleep 0.5

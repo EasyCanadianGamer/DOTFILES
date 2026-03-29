@@ -2,13 +2,12 @@
 
 
 # Modify Hyprland borders directly (optional live reload if you want)
-sed -i '/col.active_border/c\col.active_border = rgba(b6fff6bd) rgba(3bd6c6d9) 45deg' ~/.config/hypr/hyprland.conf
-
+sed -i '/col.active_border/c\col.active_border = rgba(6677ccbd) rgba(99aaddff) 45deg' ~/.config/hypr/hyprland.conf
 # Restart Hyprland to apply border changes if needed (optional):
 hyprctl reload
 
 # Replace Waybar style.css with themed version
-cp ~/.local/share/themes/Miku/style.css ~/.config/waybar/style.css
+cp ~/.local/share/themes/Vash/style.css ~/.config/waybar/style.css
 
 # Reload Waybar
 pkill waybar
