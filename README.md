@@ -18,6 +18,8 @@ My riced Hyprland + Arch Linux configuration.
 | `kitty` | Terminal |
 | `cava` | Audio visualizer |
 | `wlogout` | a logout screen for wayland |
+| `Termsonic` | a TUI for any sonic api music servers|
+
 
 ### Themes
 

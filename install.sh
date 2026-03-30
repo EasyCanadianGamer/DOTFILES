@@ -73,7 +73,7 @@ fi
 header "Package Installation"
 
 PACMAN_PKGS=(awww cava kitty waybar rofi dunst hyprland wayland pwvucontrol)
-AUR_PKGS=(wlogout)
+AUR_PKGS=(wlogout-git termsonic )
 
 if confirm "Install required packages?"; then
     info "Installing pacman packages..."
