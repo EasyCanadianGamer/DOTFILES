@@ -7,7 +7,7 @@ sed -i '/col.active_border/c\col.active_border = rgba(6677ccbd) rgba(99aaddff) 4
 hyprctl reload
 
 # Replace Waybar style.css with themed version
-cp ~/.local/share/themes/Vash/style.css ~/.config/waybar/style.css
+cp ~/.local/share/themes/Arch/style.css ~/.config/waybar/style.css
 
 # Reload Waybar
 pkill waybar
