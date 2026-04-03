@@ -19,7 +19,7 @@ My riced Hyprland + Arch Linux configuration.
 | `cava` | Audio visualizer |
 | `wlogout` | a logout screen for wayland |
 | `Termsonic` | a TUI for any sonic api music servers|
-
+| 'hyprpolkitagent'|a polkit agent for hyprland |
 
 ### Themes
 
